@@ -45,4 +45,11 @@ public class BoardController {
 
         return "boardlist";
     }
+
+    @GetMapping("/board/view") // localhost:8090/board/view?id=1 Get방식을 통해서 id값이 넘어감
+    public String boardView(Model model, @RequestParam(name = "id") Integer id){
+
+        model.addAttribute("board", boardService.boardView(id));
+        return "boardview";
+    }
 }

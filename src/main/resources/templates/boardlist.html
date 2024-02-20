@@ -23,7 +23,10 @@
         <tbody>
             <tr th:each="board : ${list}"> <!-- list안에 Board의 리스트를 담은 상태로 이를 board에 하나씩 담음-->
                 <td th:text="${board.id}">1</td> <!-- Board안에 있는 id를 글자로(text)로 넣음-->
-                <td th:text="${board.title}">제목</td>
+                <td>
+                    <a th:text="${board.title}" th:href="@{/board/view(id=${board.id})}">제목</a>
+                </td>
+                <!-- localhost:8090/board/view?id=board.id(1~121) -->
             </tr>
         </tbody>
     </table>
