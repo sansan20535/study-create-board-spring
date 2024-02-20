@@ -1,5 +1,8 @@
 package com.study.board.controller;
 
+import com.study.board.entity.Board;
+import com.study.board.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,9 @@ public class BoardController {
         return "Hello World";
     }*/
 
+    @Autowired
+    private BoardService boardService; //의존관계 주입
+
     @GetMapping("/board/write") // /board/write로 Get방식을 통해 접속했을 때
     public String boardWriteForm() {
 
@@ -22,13 +28,10 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro") // /board/writepro로 Post방식을 통해 접속했을 때
-    public String boardWritePro(@RequestParam(name = "title") String title,@RequestParam(name = "content") String content) {
-        // @RequestParam을 통해 title과 content를 인자로 받음
-/*
-        log를 통해 확인
-        System.out.println("title = " + title);
-        System.out.println("content = " + content);
-*/
+    public String boardWritePro(Board board) {
+        //lombok을 이용하여 Board 클래스로 바인딩
+
+        boardService.write(board);
 
         return "";
     }
