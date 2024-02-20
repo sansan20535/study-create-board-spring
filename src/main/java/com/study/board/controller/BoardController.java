@@ -4,6 +4,7 @@ import com.study.board.entity.Board;
 import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,5 +35,14 @@ public class BoardController {
         boardService.write(board);
 
         return "";
+    }
+
+    @GetMapping("/board/list")
+    public String boardList(Model model){ //Model : 데이터를 담아 페이지로 전송
+
+        //addAttribute(Name, Value) : Value를 Name이라는 이름으로 받아서 데이터를 전송
+        model.addAttribute("list", boardService.boardList());
+
+        return "boardlist";
     }
 }

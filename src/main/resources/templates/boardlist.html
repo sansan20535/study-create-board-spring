@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!--데이터를 받아와서 처리하기 위해 thymeleaf 이용-->
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 리스트 페이지</title>
+</head>
+<style>
+    .layout {
+        width : 500px;
+        margin : 0 auto;
+        margin-top : 40px;
+    }
+</style>
+<body>
+<div class="layout">
+    <table>
+        <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="board : ${list}"> <!-- list안에 Board의 리스트를 담은 상태로 이를 board에 하나씩 담음-->
+                <td th:text="${board.id}">1</td> <!-- Board안에 있는 id를 글자로(text)로 넣음-->
+                <td th:text="${board.title}">제목</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
