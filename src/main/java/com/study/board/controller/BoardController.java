@@ -52,4 +52,11 @@ public class BoardController {
         model.addAttribute("board", boardService.boardView(id));
         return "boardview";
     }
+
+    @GetMapping("/board/delete")
+    public String boardDelete(@RequestParam(name = "id") Integer id){
+
+        boardService.boardDelete(id);
+        return "redirect:/board/list"; // redirect:/주소 -> 해당 URL요청을 다시 하는 것
+    }
 }
