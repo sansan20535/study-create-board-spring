@@ -5,10 +5,7 @@ import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller //controller Annotation
 public class BoardController {
@@ -58,5 +55,31 @@ public class BoardController {
 
         boardService.boardDelete(id);
         return "redirect:/board/list"; // redirect:/주소 -> 해당 URL요청을 다시 하는 것
+    }
+
+    @GetMapping("/board/modify/{id}")
+    public String boardModify(@PathVariable("id") Integer id,
+                              Model model){
+        // @PathVariable : 경로변수를 표시하기 위해 사용 ({}중괄호 사용)
+        //                 URL 경로에서 변수 값을 추출하여 매개변수에 할당
+        //                 상세 조회, 수정, 삭제와 같은 작업에서 사용
+
+        model.addAttribute("board", boardService.boardView(id)); //수정 후 넘기는 데이터가 상세 페이지와 동일
+        return "boardmodify";
+    }
+
+    @PostMapping("/board/update/{id}")
+    public String boardUpdate(@PathVariable("id") Integer id, Board board){
+
+        //기존에 있던 글이 담겨짐
+        Board boardTemp = boardService.boardView(id);
+
+        //새로운 내용을 기존에 있던 내용에 덮어 씌움
+        boardTemp.setTitle(board.getTitle());
+        boardTemp.setContent(board.getContent());
+
+        boardService.write(boardTemp);
+
+        return "redirect:/board/list";
     }
 }
