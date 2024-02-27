@@ -17,4 +17,8 @@ public class Board {
     private String title; //DB내 게시글 제목
 
     private String content; //DB내 게시글 내용
+
+    private String filename;
+
+    private String filepath;
 }

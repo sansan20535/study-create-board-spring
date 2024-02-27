@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller //controller Annotation
 public class BoardController {
@@ -26,18 +27,22 @@ public class BoardController {
     }
 
     @PostMapping("/board/writepro") // /board/writepro로 Post방식을 통해 접속했을 때
-    public String boardWritePro(Board board) {
+    public String boardWritePro(Board board, Model model, @RequestParam(name="file") MultipartFile file) throws Exception{
         //lombok을 이용하여 Board 클래스로 바인딩
 
-        boardService.write(board);
+        boardService.write(board, file);
 
-        return "";
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message";
     }
 
     @GetMapping("/board/list")
     public String boardList(Model model){ //Model : 데이터를 담아 페이지로 전송
 
-        //addAttribute(Name, Value) : Value를 Name이라는 이름으로 받아서 데이터를 전송
+        //addAttribute(Name, Value) : Value를 Name이라는 이름으로 받아서 데이터를 return하는 html파일에 전송
+        //boardlist에서 list라는 이름의 변수 사용 가능
         model.addAttribute("list", boardService.boardList());
 
         return "boardlist";
@@ -69,7 +74,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board){
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, @RequestParam(name="file") MultipartFile file) throws Exception{
 
         //기존에 있던 글이 담겨짐
         Board boardTemp = boardService.boardView(id);
@@ -78,7 +83,7 @@ public class BoardController {
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
 
-        boardService.write(boardTemp);
+        boardService.write(boardTemp, file);
 
         return "redirect:/board/list";
     }
