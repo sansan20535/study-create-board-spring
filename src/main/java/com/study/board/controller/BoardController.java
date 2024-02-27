@@ -3,6 +3,9 @@ package com.study.board.controller;
 import com.study.board.entity.Board;
 import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,11 +42,12 @@ public class BoardController {
     }
 
     @GetMapping("/board/list")
-    public String boardList(Model model){ //Model : 데이터를 담아 페이지로 전송
+    //Model : 데이터를 담아 페이지로 전송, Pageable(Domain 인터페이스 선택)
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable){
 
         //addAttribute(Name, Value) : Value를 Name이라는 이름으로 받아서 데이터를 return하는 html파일에 전송
         //boardlist에서 list라는 이름의 변수 사용 가능
-        model.addAttribute("list", boardService.boardList());
+        model.addAttribute("list", boardService.boardList(pageable));
 
         return "boardlist";
     }
