@@ -48,7 +48,7 @@ public class BoardService {
     public Page<Board> boardList(Pageable pageable){
 
         //findAll()메소드를 이용하여 List<Board>를 반환
-        //단, 매개변수가 존재할 경우 Page 인터페이스를 반환
+        //단, Pageable 타입의 매개변수가 존재할 경우 Page 인터페이스를 반환
         return boardRepository.findAll(pageable);
     }
 
