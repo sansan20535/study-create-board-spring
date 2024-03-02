@@ -44,9 +44,20 @@ public class BoardController {
 
     @GetMapping("/board/list")
     //Model : 데이터를 담아 페이지로 전송, Pageable(Domain 인터페이스 선택)
-    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    public String boardList(Model model,
+                            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                            @RequestParam(name="searchKeyword", defaultValue="") String searchKeyword) {
 
-        Page<Board> list = boardService.boardList(pageable);
+        Page<Board> list = null;
+
+        //searchKeyword가 null이면 기존의 전체 탐색메소드, null이 아니면 boardSearchList 메소드
+        if (searchKeyword == null){
+            list = boardService.boardList(pageable);
+        }
+        else{
+            list = boardService.boardSearchList(searchKeyword, pageable);
+        }
+
 
         //현재 페이지 번호
         //페이지가 0번부터 시작하기 때문에 + 1

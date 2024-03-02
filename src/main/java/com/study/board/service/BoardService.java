@@ -63,4 +63,10 @@ public class BoardService {
 
         boardRepository.deleteById(id); //id를 통해 해당 게시글 삭제
     }
+
+    //특정 게시글 검색
+    public Page<Board> boardSearchList(String searchKeyword, Pageable pageable){
+
+        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    }
 }
